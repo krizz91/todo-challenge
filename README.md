@@ -1,5 +1,20 @@
-# Invera ToDo-List Challenge (Python/Django Jr-SSr)
+# Invera ToDo-List Challenge (Python/Django Jr-SSr) -  Christian Keegan
 
+## Dependencies
+- Python 3.10
+
+## Installation
+### For virtual env
+- python3 -m pip install venv
+- python3 -m venv .venv
+- source .venv/bin/activate
+
+### General
+- pip install -r requirements.txt
+
+
+
+## Objetivo
 El propósito de esta prueba es conocer tu capacidad para crear una pequeña aplicación funcional en un límite de tiempo. A continuación, encontrarás las funciones, los requisitos y los puntos clave que debés tener en cuenta durante el desarrollo.
 
 ## Qué queremos que hagas:

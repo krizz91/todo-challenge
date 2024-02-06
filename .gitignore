@@ -1,0 +1,21 @@
+# Virtual environment
+.venv
+
+# Compiled Python files
+*.pyc
+__pycache__/
+
+# Local development settings
+local_settings.py
+
+# Database (SQLite)
+db.sqlite3
+
+# Static files
+/static/
+
+# Media files
+/media/
+
+# Log files
+*.log

@@ -4,24 +4,22 @@
 - Python 3.10
 
 ## Installation
-### For virtual env
+### Creation of virtual env
 - python3 -m pip install venv
 - python3 -m venv .venv
 - source .venv/bin/activate
 
-### General
+### Envirnoment
 - pip install -r requirements.txt
 
+### Start
+- python3 manage.py migrate
+- python3 manage.py runserver
 
-
-## Objetivo
-El propósito de esta prueba es conocer tu capacidad para crear una pequeña aplicación funcional en un límite de tiempo. A continuación, encontrarás las funciones, los requisitos y los puntos clave que debés tener en cuenta durante el desarrollo.
-
-## Qué queremos que hagas:
-
-- El Challenge consiste en crear una aplicación web sencilla que permita a los usuarios crear y mantener una lista de tareas.
-- La entrega del resultado será en un nuevo fork de este repo y deberás hacer una pequeña demo del funcionamiento y desarrollo del proyecto ante un super comité de las más grandes mentes maestras de Invera, o a un par de devs, lo que sea más fácil de conseguir.
-- Podes contactarnos en caso que tengas alguna consulta.
+## Enpoints
+- /todo/list/
+- /todo/create/
+- /todo/complete/
 
 ## Objetivos:
 

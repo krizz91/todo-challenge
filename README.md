@@ -17,6 +17,8 @@
 - python3 manage.py runserver
 
 ## Enpoints
+- /todo/login/
+- /todo/logout/
 - /todo/list/
 - /todo/create/
 - /todo/complete/

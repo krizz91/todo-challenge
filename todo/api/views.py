@@ -1,11 +1,54 @@
 from datetime import datetime
+from django.contrib.auth import login, logout
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
+from rest_framework import serializers as drf_serializers
 
 from todo import serializers
 from todo.models import Tasks
+
+class LoginView(GenericAPIView):
+
+    permission_classes = (AllowAny, )
+    serializer_class = serializers.LoginSerializer
+
+    def post(self, request, *args, **kwargs):
+        username = request.data.get('username', '')
+        password = request.data.get('password', '')
+        serializer = self.get_serializer(data={'username': username,
+                                               'password': password})
+
+        try:
+            if not serializer.is_valid():
+                response = Response({"status": "failed",
+                                     "message": serializer.errors},
+                                    status=status.HTTP_200_OK)
+            else:
+                user = serializer.validated_data['user']
+                login(self.request, user)
+
+                response = Response({
+                    "status": "success"
+                    }, status=status.HTTP_200_OK)
+        except Exception as e:
+            response = Response({"status": "failed",
+                                 "message": e},
+                                status=status.HTTP_200_OK)
+        return response
+
+
+class LogoutView(GenericAPIView):
+
+    permission_classes = (IsAuthenticated, )
+    serializer_class = drf_serializers.Serializer
+
+    def post(self, request, *args, **kwargs):
+        logout(self.request)
+        return Response({"status": "success",
+                         "message": "Successfully logged out."},
+                        status=status.HTTP_200_OK)
 
 class TaskListView(GenericAPIView):
     """
@@ -56,7 +99,7 @@ class CreateTask(GenericAPIView):
     """
 
     permission_classes = (IsAuthenticated, )
-    serializer_class = (serializers.TasksSerializer)
+    serializer_class = serializers.TasksSerializer
 
     def post(self, request, *args, **kwargs):
         """
@@ -85,7 +128,7 @@ class CompleteTask(GenericAPIView):
     """
 
     permission_classes = (IsAuthenticated, )
-    serializer_class = (serializers.CompleteTaskSerializer)
+    serializer_class = serializers.CompleteTaskSerializer
 
     def post(self, request, *args, **kwargs):
         """

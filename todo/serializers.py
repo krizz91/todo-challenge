@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Tasks
+
+from todo.models import Tasks
 
 class TasksSerializer(serializers.ModelSerializer):
     description = serializers.CharField(required=True)

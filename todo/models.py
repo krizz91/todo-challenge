@@ -16,6 +16,10 @@ class Tasks(models.Model):
     description = models.TextField(verbose_name=_('Description'))
     completed = models.BooleanField(verbose_name=_('Completed'), default=False)
 
+    def complete(self):
+        self.completed = True
+        self.save()
+
     class Meta:
         verbose_name = _('Task')
         verbose_name_plural = _('Tasks')

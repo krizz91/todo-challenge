@@ -47,5 +47,6 @@ class CompleteTaskSerializer(serializers.Serializer):
 
     def validate_id(self, value):
         if not Tasks.objects.filter(id=value, completed=False).exists():
-            raise serializers.ValidationError("Wrong ID. You have to provide a valid ID")
+            msg = _('Wrong ID. You have to provide a valid ID')
+            raise ValidationError(msg)
         return value

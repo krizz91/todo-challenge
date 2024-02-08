@@ -24,7 +24,7 @@ class LoginView(GenericAPIView):
             if not serializer.is_valid():
                 response = Response({"status": "failed",
                                      "message": serializer.errors},
-                                    status=status.HTTP_200_OK)
+                                    status=status.HTTP_400_BAD_REQUEST)
             else:
                 user = serializer.validated_data['user']
                 login(self.request, user)
@@ -137,12 +137,24 @@ class CompleteTask(GenericAPIView):
         Parameters:
         - id (mandatory)
         """
-        task_data = serializers.CompleteTaskSerializer(data=request.data)
-        task_data.is_valid(raise_exception=True)
+        serializer = self.get_serializer(data=request.data)
+        try:
+            if not serializer.is_valid():
+                response = Response({"status": "failed",
+                                     "message": serializer.errors},
+                                    status=status.HTTP_400_BAD_REQUEST)
+            else:
+                task_data = serializers.CompleteTaskSerializer(data=request.data)
+                task_data.is_valid(raise_exception=True)
 
-        task = Tasks.objects.get(id=task_data.validated_data['id'])
-        task.complete()
-        
-        return Response({
-            'status': 'success'
-            }, status=status.HTTP_201_CREATED)
+                task = Tasks.objects.get(id=task_data.validated_data['id'])
+                task.complete()
+                
+                response = Response({
+                    'status': 'success'
+                    }, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            response = Response({"status": "failed",
+                                 "message": e},
+                                status=status.HTTP_200_OK)
+        return response

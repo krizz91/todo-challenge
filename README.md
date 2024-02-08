@@ -23,6 +23,13 @@
 - /todo/create/
 - /todo/complete/
 
+## Apps
+### todo
+Aplicacion encargada del manejo de Tasks. Tiene implementada la logica y los servicios API
+
+### logger
+Aplicacion encargada del logueo de acciones. Las mismas se hacen mediante hooks. Potencialmente se puede enviar a una base de datos aparte
+
 ## Objetivos:
 
 El usuario de la aplicación tiene que ser capaz de:

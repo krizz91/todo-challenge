@@ -61,8 +61,8 @@ class TaskListView(GenericAPIView):
     - description (optional): ''
     - date_lte (optional): 'dd-mm-YYYY'
     - date_gte (optional): 'dd-mm-YYYY'
-    - order_asc (optional): True/False
-    - order_desc (optional): True/False
+    - order_asc (optional)
+    - order_desc (optional)
     """
 
     permission_classes = (IsAuthenticated, )
@@ -91,8 +91,8 @@ class TaskListView(GenericAPIView):
         if(date_gte):
             date_gte = datetime.strptime(date_gte, '%d-%m-%Y')
             tasks = tasks.filter(created__gte=date_gte)
-        order_asc = request.GET.get('order_asc', False)
-        order_desc = request.GET.get('order_desc', False)
+        order_asc = request.GET.__contains__('order_asc')
+        order_desc = request.GET.__contains__('order_desc')
         if order_asc and order_desc:
             return Response({
                 'data': 'You only can set one order value',

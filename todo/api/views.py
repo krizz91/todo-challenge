@@ -55,8 +55,14 @@ class TaskListView(GenericAPIView):
     This view's main target is the representation of the tasks
 
     Method:
-    - get: This method manage the GET requests, returning a list of Tasks.
-    You can filter by description and by date (date_lte for lower than and date_gte gor greater than)
+    - get: This method manage the GET requests, returning a list of Tasks. You can filter by description and date (date_lte for lower than and date_gte gor greater than) and you can order by date (order_asc and order_desc)
+
+    Parameters:
+    - description (optional): ''
+    - date_lte (optional): 'dd-mm-YYYY'
+    - date_gte (optional): 'dd-mm-YYYY'
+    - order_asc (optional): True/False
+    - order_desc (optional): True/False
     """
 
     permission_classes = (IsAuthenticated, )
@@ -69,6 +75,8 @@ class TaskListView(GenericAPIView):
         - description (optional)
         - date_lte (optional)
         - date_gte (optional)
+        - order_asc (optional)
+        - order_desc (optional)
         """
         tasks = Tasks.objects.all()
 
@@ -83,7 +91,18 @@ class TaskListView(GenericAPIView):
         if(date_gte):
             date_gte = datetime.strptime(date_gte, '%d-%m-%Y')
             tasks = tasks.filter(created__gte=date_gte)
-        
+        order_asc = request.GET.get('order_asc', False)
+        order_desc = request.GET.get('order_desc', False)
+        if order_asc and order_desc:
+            return Response({
+                'data': 'You only can set one order value',
+                'status': 'error'
+                }, status=status.HTTP_400_BAD_REQUEST)
+        if(order_asc):
+            tasks = tasks.order_by('created')
+        if(order_desc):
+            tasks = tasks.order_by('-created')
+
         serializedTasks = serializers.TasksSerializer(tasks, many=True)
         return Response({
             'data': serializedTasks.data,
